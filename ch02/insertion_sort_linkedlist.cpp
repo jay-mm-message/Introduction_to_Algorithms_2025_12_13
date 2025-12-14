@@ -36,8 +36,25 @@ ListNode* create_linkedList() {
 	return head;
 }
 
-ListNode* insertion_sort(ListNode* head) {
+ListNode* insertion_sort(ListNode *head) {
+	ListNode *curr = head;
+	ListNode dummy;
+	dummy.next = nullptr;
 
+	while(curr) {
+		ListNode *next = curr->next;
+		ListNode *prev = &dummy;
+
+		while(prev->next && prev->next->val < curr->val) {
+			prev = prev->next;
+		}
+
+		curr->next = prev->next;
+		prev->next = curr;
+
+		curr = next;
+	}
+	return dummy.next;
 }
 
 int main() {
@@ -45,6 +62,9 @@ int main() {
 
 	p(head, "orig");
 
+	ListNode *ret = insertion_sort(head);
+
+	p(ret, "insertion sort");
 
 	return 0;
 }
